@@ -4,11 +4,12 @@ import { IActivity } from "../../../app/interfaces/IActivity";
 
 type ActivityFormType = {
   activity: IActivity | undefined;
+  isSubmitting: boolean;
   closeForm: () => void;
   createOrEdit: (activity: IActivity) => void;
 }
 
-const ActivityForm = ({activity: selectedActivity, closeForm, createOrEdit}: ActivityFormType) => {
+const ActivityForm = ({activity: selectedActivity, isSubmitting, closeForm, createOrEdit}: ActivityFormType) => {
 
   const initialState: IActivity | undefined = selectedActivity ?? {
     id: '',
@@ -54,6 +55,7 @@ const ActivityForm = ({activity: selectedActivity, closeForm, createOrEdit}: Act
         />
         <Form.Input
           placeholder='Date'
+          type='date'
           name={'date'}
           value={activity.date}
           onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange(e)}
@@ -81,6 +83,7 @@ const ActivityForm = ({activity: selectedActivity, closeForm, createOrEdit}: Act
           floated={'right'}
           type={'button'}
           content={'Cancel'}
+          loading={isSubmitting}
           onClick={() => closeForm()}
         />
       </Form>

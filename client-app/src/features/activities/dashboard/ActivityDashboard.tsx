@@ -7,6 +7,7 @@ import ActivityForm from '../form/ActivityForm';
 type ActivityDashboardType = {
   activities: IActivity[];
   isEditMode: boolean;
+  isSubmitting: boolean;
   selectedActivity: IActivity | undefined;
   cancelSelectActivity: () => void;
   createOrEdit: (activity: IActivity) => void;
@@ -16,7 +17,7 @@ type ActivityDashboardType = {
   selectActivity: (id: string) => void;
 };
 
-const ActivityDashboard = ({activities, isEditMode, selectedActivity, closeForm, createOrEdit, deleteActivity, openForm, selectActivity, cancelSelectActivity}: ActivityDashboardType) => {
+const ActivityDashboard = ({activities, isEditMode, isSubmitting,selectedActivity, closeForm, createOrEdit, deleteActivity, openForm, selectActivity, cancelSelectActivity}: ActivityDashboardType) => {
   return (
     <Grid>
       <Grid.Column width={'10'}>
@@ -37,6 +38,7 @@ const ActivityDashboard = ({activities, isEditMode, selectedActivity, closeForm,
         {isEditMode &&
           <ActivityForm
             activity={selectedActivity}
+            isSubmitting={isSubmitting}
             closeForm={closeForm}
             createOrEdit={createOrEdit}
           />
