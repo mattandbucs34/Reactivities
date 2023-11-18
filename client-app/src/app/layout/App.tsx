@@ -70,8 +70,10 @@ function App() {
   }
 
   function handleDeleteActivity(id: string) {
-    const updatedActivities = activities.filter(activity => activity.id === id);
-    setActivities(updatedActivities);
+    setIsSubmitting(true);
+    agent.Activities.delete(id).then(() => {
+      setIsSubmitting(false);
+    });
   }
 
   if (isLoading) {

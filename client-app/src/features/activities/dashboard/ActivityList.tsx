@@ -1,13 +1,23 @@
+import { Dispatch, MouseEvent, SetStateAction, useState } from 'react';
 import { IActivity } from '../../../app/interfaces/IActivity';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
 
 type ActivityListType = {
   activities: IActivity[];
+  isSubmitting: boolean;
   deleteActivity: (id: string) => void;
   selectActivity: (id: string) => void;
 }
 
-const ActivityList = ({activities, deleteActivity, selectActivity}: ActivityListType) => {
+const ActivityList = ({activities, isSubmitting, deleteActivity, selectActivity}: ActivityListType) => {
+
+  const [target, setTarget]: [string, Dispatch<SetStateAction<string>>] = useState('');
+
+  function handleActivityDelete(e: MouseEvent<HTMLButtonElement>, id: string) {
+    setTarget(e.currentTarget.name);
+    deleteActivity(id);
+  }
+
   return (
     <Segment>
       <Item.Group divided>
@@ -33,10 +43,12 @@ const ActivityList = ({activities, deleteActivity, selectActivity}: ActivityList
                     onClick={() => selectActivity(activity.id)}
                   />
                   <Button
+                    name={activity.id}
                     floated={'right'}
                     content={'Delete'}
                     color={'red'}
-                    onClick={() => deleteActivity(activity.id)}
+                    loading={isSubmitting && target === activity.id}
+                    onClick={(e) => handleActivityDelete(e, activity.id)}
                   />
                   <Label basic content={activity.category} />
                 </Item.Extra>

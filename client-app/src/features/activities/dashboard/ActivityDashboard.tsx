@@ -25,6 +25,7 @@ const ActivityDashboard = ({activities, isEditMode, isSubmitting,selectedActivit
           activities={activities}
           deleteActivity={deleteActivity}
           selectActivity={selectActivity}
+          isSubmitting={isSubmitting}
         />
       </Grid.Column>
       <Grid.Column width={'6'} >
