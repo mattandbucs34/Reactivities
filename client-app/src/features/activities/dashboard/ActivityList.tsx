@@ -1,15 +1,10 @@
 import { Dispatch, MouseEvent, SetStateAction, useState } from 'react';
-import { IActivity } from '../../../app/interfaces/IActivity';
 import { Button, Item, Label, Segment } from 'semantic-ui-react';
+import { useStore } from '../../../app/stores/store';
 
-type ActivityListType = {
-  activities: IActivity[];
-  isSubmitting: boolean;
-  deleteActivity: (id: string) => void;
-  selectActivity: (id: string) => void;
-}
-
-const ActivityList = ({activities, isSubmitting, deleteActivity, selectActivity}: ActivityListType) => {
+const ActivityList = () => {
+  const {activityStore} = useStore();
+  const { activitiesByDate, isLoading, deleteActivity, selectActivity } = activityStore;
 
   const [target, setTarget]: [string, Dispatch<SetStateAction<string>>] = useState('');
 
@@ -21,7 +16,7 @@ const ActivityList = ({activities, isSubmitting, deleteActivity, selectActivity}
   return (
     <Segment>
       <Item.Group divided>
-        {activities.map(activity => {
+        {activitiesByDate.map(activity => {
           return (
             <Item key={activity.id}>
               <Item.Content>
@@ -47,7 +42,7 @@ const ActivityList = ({activities, isSubmitting, deleteActivity, selectActivity}
                     floated={'right'}
                     content={'Delete'}
                     color={'red'}
-                    loading={isSubmitting && target === activity.id}
+                    loading={isLoading && target === activity.id}
                     onClick={(e) => handleActivityDelete(e, activity.id)}
                   />
                   <Label basic content={activity.category} />
